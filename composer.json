@@ -1,0 +1,19 @@
+{
+    "name": "coder-studio/yandexpdd",
+    "description": "Laravel 5 API pdd.yandex.ru",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir Toropchin",
+            "email": "toropchin_vv@mail.ru"
+        }
+    ],
+    "require": {},
+    "minimum-stability": "dev",
+
+    "autoload": {
+        "psr-4": {
+            "CoderStudio\\YandexPdd\\": "src/"
+        }
+    }
+}
