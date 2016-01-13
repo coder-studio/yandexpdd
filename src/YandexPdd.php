@@ -106,6 +106,24 @@ class YandexPdd extends Model
         return self::parseResult($json);
     }
 
+    public function auth($uid)
+    {
+        $json = file_get_contents('https://pddimp.yandex.ru/api2/admin/email/get_oauth_token', false, stream_context_create(array(
+            'http' => array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => http_build_query(
+                    [
+                        'domain' => config('yandexpdd.domain.name'),
+                        'uid' => $uid,
+                        'token' => config('yandexpdd.domain.token'),
+                    ]
+                )
+            )
+        )));
+
+        return self::parseResult($json);
+    }
 
     /**
      * @param $json
@@ -120,6 +138,14 @@ class YandexPdd extends Model
             $result = [
                 'success' => true,
             ];
+
+            if(isset($encode->{'oauth-token'}))
+            {
+                $result = [
+                    'success' => true,
+                    'auth_token' => $encode->{'oauth-token'},
+                ];
+            }
 
             if(isset($encode->accounts))
             {
@@ -154,6 +180,7 @@ class YandexPdd extends Model
             'no_ip' => 'Не передан IP',
             'no_domain' => 'Не передан домен',
             'no_password' => 'Не передан пароль',
+            'passwd-empty' => 'Пустой пароль',
             'bad_domain' => 'Имя домена не указано, либо не соответствует RFC',
             'passwd-tooshort' => 'Пароль слишком короткий',
             'prohibited' => 'Передано запрещённое имя домена',

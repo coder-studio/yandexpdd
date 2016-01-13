@@ -9,13 +9,13 @@ use Illuminate\Support\ServiceProvider;
 class YandexPddServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * YandexPdd the application services.
      *
      * @return void
      */
     public function boot()
     {
-        $this->publishes([__DIR__ . '/../config/yandexpdd.php' => config_path('yandexpdd.php')], 'config');
+        $this->publishes([__DIR__ . '/../../config/yandexpdd.php' => config_path('yandexpdd.php')], 'config');
     }
 
     /**
@@ -25,7 +25,7 @@ class YandexPddServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        App::mergeConfigFrom(__DIR__ . '/../config/yandexpdd.php', 'pdd');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/yandexpdd.php', 'yandexpdd');
 
         App::bind('yandexpdd', function () {
             return new YandexPdd;
